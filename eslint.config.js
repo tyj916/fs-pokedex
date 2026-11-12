@@ -11,7 +11,8 @@ module.exports = [
       '.eslintrc.js',
       'node_modules/**',
       'dist/**',
-      'jest.setup.js'
+      'jest.setup.js',
+      'playwright.config.js'
     ]
   },
   js.configs.recommended,
@@ -37,7 +38,7 @@ module.exports = [
     }
   },
   {
-    files: ['src/**/*.{js,jsx}', 'test/**/*.{js,jsx}'],
+    files: ['src/**/*.{js,jsx}', 'test/**/*.{js,jsx}', 'e2e-tests/**/*.{js,jsx}'],
     plugins: {
       react,
       jest
