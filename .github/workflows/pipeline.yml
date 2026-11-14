@@ -48,6 +48,13 @@ jobs:
           DEFAULT_BUMP: patch 
       - name: Notify build status
         uses: sarisia/actions-status-discord@v1
-        if: always()
+        if: success()
         with:
           webhook: ${{ secrets.FS_DISCORD_WEBHOOK }}
+          nodetail: true
+          content: ":white_check_mark: **Deployment Successful!** A new version deployed to production"
+          title: "Deployment Details"
+          description: |
+            **Commit:** `${{ github.sha }}`
+            **Message:** ${{ github.event.head_commit.message }}
+            **Author:** ${{ github.event.head_commit.author.username }}
