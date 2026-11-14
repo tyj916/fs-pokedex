@@ -50,7 +50,9 @@ jobs:
     needs: [simple_deployment_pipeline, tag_release]
     runs-on: ubuntu-latest
     if: >-
-      always()
+      always() &&
+      github.event_name == 'push' &&
+      !contains(join(github.event.commits.*.message, ' '), '#skip')
     steps:
       - name: Notify deployment success
         if: >-
