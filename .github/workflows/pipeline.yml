@@ -55,7 +55,9 @@ jobs:
       !contains(join(github.event.commits.*.message, ' '), '#skip')
     steps:
       - name: Notify deployment success
-        if: success()
+        if: >-
+          needs.simple_deployment_pipeline.result == 'success' &&
+          needs.tag_release.result == 'success'
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.FS_DISCORD_WEBHOOK }}
@@ -68,7 +70,9 @@ jobs:
             **Message:** ${{ github.event.head_commit.message }}
             **Author:** ${{ github.event.head_commit.author.username }}
       - name: Notify build failure
-        if: failure()
+        if: >-
+          needs.simple_deployment_pipeline.result == 'failure' ||
+          needs.tag_release.result == 'failure'
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.FS_DISCORD_WEBHOOK }}
@@ -86,3 +90,4 @@ jobs:
 
             [View Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
             [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          color: 0xff0000
