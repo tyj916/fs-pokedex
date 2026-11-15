@@ -92,12 +92,12 @@ jobs:
           title: "Failure Details"
           description: |
             **Repository:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
+            **Branch:** ${{ github.head_ref || github.ref_name }}
             **Commit:** `${{ github.sha }}`
             **Message:** ${{ github.event.head_commit.message }}
             **Author:** ${{ github.event.head_commit.author.username }}
             **Workflow:** ${{ github.workflow }}
-            **Job:** ${{ github.job }}
+            **Job:** deployment_pipeline
 
             [View Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
             [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
