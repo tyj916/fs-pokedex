@@ -54,7 +54,7 @@ jobs:
           DEFAULT_BUMP: patch 
 
   notify_success:
-    needs: [deploy, tag_release]
+    needs: [deploy]
     runs-on: ubuntu-latest
     if: >-
       success() &&
@@ -75,7 +75,7 @@ jobs:
             **Author:** ${{ github.event.head_commit.author.username }}
 
   notify_failure:
-    needs: [build_and_test, deploy, tag_release]
+    needs: [deploy]
     runs-on: ubuntu-latest
     if: >-
       always() &&
