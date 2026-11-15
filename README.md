@@ -15,3 +15,7 @@ Start by running `npm install` inside the project folder
 ## Link to deployed app
 
 https://fs-pokedex-n7yy.onrender.com
+
+## The app repository from FS CICD exercises 21 and 22
+
+https://github.com/tyj916/bloglist
