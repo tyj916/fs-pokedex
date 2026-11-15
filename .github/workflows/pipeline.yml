@@ -46,18 +46,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch 
-  notify_build_status_discord:
+  notify_success:
     needs: [simple_deployment_pipeline, tag_release]
     runs-on: ubuntu-latest
     if: >-
-      always() &&
+      success() &&
       github.event_name == 'push' &&
       !contains(join(github.event.commits.*.message, ' '), '#skip')
     steps:
       - name: Notify deployment success
-        if: >-
-          needs.simple_deployment_pipeline.result == 'success' &&
-          needs.tag_release.result == 'success'
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.FS_DISCORD_WEBHOOK }}
@@ -69,10 +66,16 @@ jobs:
             **Commit:** `${{ github.sha }}`
             **Message:** ${{ github.event.head_commit.message }}
             **Author:** ${{ github.event.head_commit.author.username }}
+  notify_failure:
+    needs: [simple_deployment_pipeline, tag_release]
+    runs-on: ubuntu-latest
+    if: >-
+      always() &&
+      failure() &&
+      github.event_name == 'push' &&
+      !contains(join(github.event.commits.*.message, ' '), '#skip')
+    steps:
       - name: Notify build failure
-        if: >-
-          needs.simple_deployment_pipeline.result == 'failure' ||
-          needs.tag_release.result == 'failure'
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.FS_DISCORD_WEBHOOK }}
