@@ -81,7 +81,6 @@ jobs:
     runs-on: ubuntu-latest
     if: >-
       failure() &&
-      github.event_name == 'push' &&
       !contains(join(github.event.commits.*.message, ' '), '#skip')
     steps:
       - name: Notify build failure
